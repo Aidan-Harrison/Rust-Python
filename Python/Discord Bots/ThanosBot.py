@@ -39,7 +39,7 @@ async def targetSnap(ctx, member : discord.Member):
 async def snap(ctx): #member : discord.Member): # Context is automatically passed in, parameter needed
     await ctx.send('Balancing universe....')
     #print(f'{round(client.latency * 1000)} |ms') # Convert to milliseconds
-    total = ctx.guild.member_count / 2
+    total = ctx.guild.member_count / 2 # Returns float for some reason
     total = int(math.floor(total))
     print(total)
     owner = ctx.guild.owner
@@ -65,4 +65,4 @@ async def _8ball(ctx, *, question = "Generic question?"): # Underscore allows fo
 async def tHelp(ctx):
     await ctx.send('|=====HELP=====|\n>snap : Kicks half a servers userbase at random\n>targetSnap : Kicks a specific member')
 
-client.run('ODI5NzQyOTUxNzg5NDk0Mjcz.YG8kVw._fB6k9mf9Yj77o3AjIEoB58EzLE')
+client.run('ODI5NzQyOTUxNzg5NDk0Mjcz.YG8kVw.wz8IkvflYOvklDYO5RBql_Yw110')
