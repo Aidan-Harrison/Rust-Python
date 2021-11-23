@@ -58,10 +58,13 @@ simulating = True
 tickRate : float = 1.0
 location = ['United Kingdom', 'North America', 'Japan', 'Europe'] # Can remove, calculate based on currency
 currencies = {'£' : 'GBP',
-			  '$': 'USD',
-			  '€': 'EUR',
-			  '¥' : 'JPY'}
-marketHours = [8, 4] # AM - PM | Defaults to UK
+			'$': 'USD',
+			'€': 'EUR',
+			'¥' : 'JPY'}
+# Market Hours
+# Need to create a time/clock system e.g. AM -> PM
+marketHours = {8: 'AM',
+            4: 'PM'}
 # Improve date and time
 hour : int = 0
 day : int = 1 
@@ -90,34 +93,40 @@ def KeyboardParser():
 	if curInput == '98' or curInput == '66': # b/B
 		print("BACK")
 
+def DetailedView(stock): # Provides a more detailed overview of specified stock
+    print("====", stock.name, "=== | Detailed View")
+    print(stock.shareValue)
+    print(stock.industryType)
+
 # ======================= Simulate =======================
 def Simulate(): # Run in own thread | Main function
 	while(simulating):
 		system('cls')
 		# Add opening and closing hours
-		print("Hour: ", hour)
-		print('Day: ', day, 'Month: ', month, 'Year: ', year)
-		for stock in companies:
-			print(stock.shareCost, ': ' , '======| ', stock.stockName, ' |======')
-			stock.Print()
-			print('\n-----------------------------------------------------------')
+        if hour > marketHours[0] and hour < marketHours[1]:
+            print("Hour: ", hour)
+            print('Day: ', day, 'Month: ', month, 'Year: ', year)
+            for stock in companies:
+                print(stock.shareCost, ': ' , '======| ', stock.stockName, ' |======')
+                stock.Print()
+                print('\n-----------------------------------------------------------')
 
-			# Simulate:
-			change = abs(floor((stock.totalValue/100) - (stock.shareCost/1000))) # Improve
-			fluctuation = random.randrange(0, 10)
-			if fluctuation > 5:
-				stock.shareCost += change
-			else:
-				stock.shareCost -= change
-			if stock.shareCost <= 0.0:
-				print(stock.stockName, ' went bankrupt on ', day,'/',month,'/',year) # Add date!
-				# Delete stock
-			stock.history.append(stock.shareCost)
-			# Add percent change
+                # Simulate:
+                change = abs(floor((stock.totalValue/100) - (stock.shareCost/1000))) # Improve!
+                fluctuation = random.randrange(0, 10)
+                if fluctuation > 5:
+                    stock.shareCost += change
+                else:
+                    stock.shareCost -= change
+                if stock.shareCost <= 0.0:
+                    print(stock.stockName, ' went bankrupt on ', day,'/',month,'/',year)
+                    # Delete stock
+                stock.history.append(stock.shareCost)
+                # Add percent change
 	
 		time.sleep(tickRate)
 
-		# Date & Time:
+		# Date & Time: | Fix! | Implement Time/Clock system
 		#global hour
 		#hour += 1
 

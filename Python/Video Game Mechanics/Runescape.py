@@ -1,19 +1,28 @@
 # Runescape level system
 
+from os import remove, system, name
+
 # Create skills
 # Set actions
 # Add and store level ups
 # Allow for multiple characters
 
+class Item:
+    def __init__(self, name = 'Default Name') -> None:
+        self.itemName = name
+        self.index : int = 0
+
 class Character:
     def __init__(self, combatLvl = 3) -> None:
         self.combatLevel = combatLvl
-    skills = {'Attack' : 1,
-              'Strength' : 1,
-              'Defence': 1,
-              'Prayer': 1,
-              'Ranged': 1,
-              'Magic': 1}
+        self.bank = [Item] * 100
+    
+    skills = {'Attack' : 1, # Move to constructor??
+            'Strength' : 1,
+            'Defence': 1,
+            'Prayer': 1,
+            'Ranged': 1,
+            'Magic': 1}
 
     def PrintSkills(self):
         print('Combat Level:', self.combatLevel)
@@ -25,7 +34,18 @@ class Character:
         choice = input()
         Action(choice)
 
+    def PrintBank(self):
+
+        for i in range(len(self.bank)):
+            print(i.itemName, end='|')
+            if i % 10 == 0:
+                print('\n')
+
+def Bank(char):
+    char.PrintBank()
+
 def Action(type):
+    print('Press B to access bank')
     skillAction = ''
     if(type == 1):
         skillAction = 'Attacked'
@@ -44,9 +64,13 @@ def Action(type):
 c = Character(3)
 
 def Interface():
-    print("=RUNESCAPE=")
+    print('=RUNESCAPE=')
     while 1:
         c.PrintSkills()
         c.PickSkillToTrain()
+    print('Pick an option')
+    choice = input()
+    if choice == 'b':
+        Bank()
 
 Interface()
